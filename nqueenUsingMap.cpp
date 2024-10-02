@@ -23,7 +23,6 @@ public:
 			board[row][col] = 0;
 		}
 	}
-
 }
     vector<vector<int>> nQueen(int n) {
     	vector<vector<int>> ans;
