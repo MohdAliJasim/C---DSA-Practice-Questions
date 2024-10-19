@@ -12,5 +12,6 @@ int main(){
       if(arr[j] > arr[j+1]) swap(arr[j], arr[j+1]);
     }
   }
-  for(auto a : arr) cout << a << " ";
+  for(int a : arr) cout << a << " ";
+
 }
