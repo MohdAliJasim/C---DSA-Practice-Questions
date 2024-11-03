@@ -11,16 +11,33 @@
  */
 class Solution {
 public:
-    void dfs(TreeNode* root, vector<int>& res){
-        if(root == nullptr) return;
-
-        dfs(root->left, res);
-        dfs(root->right , res);
-        res.push_back(root->val);
-    }
     vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> res;
-        dfs(root, res);
-        return res;
+        vector<int> post;
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+        if(!root) return post;
+        while(curr!= nullptr || !st.empty() ){
+            if(curr != nullptr){
+                st.push(curr);
+                curr = curr->left;
+            }
+            else{
+                TreeNode* temp = st.top()->right;
+                if(temp == nullptr){
+                    temp = st.top();
+                    st.pop();
+                    post.push_back(temp->val);
+                    while(!st.empty() && temp == st.top()->right){
+                        temp = st.top();
+                        st.pop();
+                        post.push_back(temp->val);
+                    }
+                }
+                else{
+                    curr = temp;
+                }
+            }
+        }
+        return post;
     }
 };
