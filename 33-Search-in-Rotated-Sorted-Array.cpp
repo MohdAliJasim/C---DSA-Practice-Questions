@@ -1,18 +1,6 @@
 class Solution {
 public:
     int search(vector<int>& arr, int target) {
-        if(arr.size() ==  0) return -1;
-
-        if(arr.size() == 1){
-            if(arr[0] == target) return 0;
-            else return -1;
-        }
-        if(arr.size() == 2){
-            if(arr[0] == target) return 0;
-            else if (arr[1]== target ) return 1;
-            else return -1;
-        }
-
         int ans = -1;
         int low = 0;
         int high = arr.size()-1;
