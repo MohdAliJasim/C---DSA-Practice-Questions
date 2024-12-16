@@ -11,36 +11,65 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* dummy = new ListNode(-1);
-        ListNode* curr = dummy;
-        while(list1 || list2){
-            if(list1 && list2){
-                if(list1->val < list2->val){
-                    ListNode* node = new ListNode(list1->val);
-                    curr->next = node;
-                    curr = node;
-                    list1 = list1->next;
+        ListNode* newHead = nullptr;
+        ListNode* temp = nullptr;
+
+        ListNode* curr1 = list1;
+        ListNode* curr2 = list2;
+
+        while(curr1 || curr2){
+            ListNode* newNode = nullptr;
+            if(curr1 && curr2){
+                if(curr1->val < curr2->val){
+                    if(newHead == nullptr){
+                        newHead = new ListNode(curr1->val);
+                        temp = newHead;
+                    }
+                    else{
+                        newNode = new ListNode(curr1->val);
+                        temp->next = newNode;
+                        temp = newNode;
+                    }
+                    curr1 = curr1->next;
                 }
                 else{
-                    ListNode* node = new ListNode(list2->val);
-                    curr->next = node;
-                    curr = node;
-                    list2 = list2->next;
+                    if(newHead == nullptr){
+                        newHead = new ListNode(curr2->val);
+                        temp = newHead;
+                    }
+                    else{
+                        newNode = new ListNode(curr2->val);
+                        temp->next = newNode;
+                        temp = newNode;
+                    }
+                    curr2 = curr2->next;
                 }
             }
-            else if(list1){
-                ListNode* node = new ListNode(list1->val);
-                curr->next =node;
-                curr =node;
-                list1 =list1->next;
+            else if(curr1){
+                    if(newHead == nullptr){
+                        newHead = new ListNode(curr1->val);
+                        temp = newHead;
+                    }
+                    else{
+                        newNode = new ListNode(curr1->val);
+                        temp->next = newNode;
+                        temp = newNode;
+                    }
+                    curr1 = curr1->next;
             }
             else{
-                ListNode* node = new ListNode(list2->val);
-                curr->next = node;
-                curr =node;
-                list2 = list2->next;
+                 if(newHead == nullptr){
+                        newHead = new ListNode(curr2->val);
+                        temp = newHead;
+                    }
+                    else{
+                        newNode = new ListNode(curr2->val);
+                        temp->next = newNode;
+                        temp = newNode;
+                    }
+                    curr2 = curr2->next;
             }
         }
-        return dummy->next;
+        return newHead;
     }
 };
