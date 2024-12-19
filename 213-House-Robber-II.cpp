@@ -1,25 +1,21 @@
 class Solution {
 public:
-
-    int solve(vector<int>& nums, int n, vector<int>& dp){
-        if(n <= 0) return 0;
-        if(dp[n] != -1) return dp[n];
-        int pick = solve(nums, n-2,dp) + nums[n-1];
-        int notPick = solve(nums,n-1,dp);
-
-        return dp[n] = max(pick , notPick);
-    }
-
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        if(n == 1) return nums[0];
-        vector<int>dp(n+1,-1);
-        int firstHouse = solve(nums, n-1,dp);
-        nums.erase(nums.begin()+0);
-        fill(dp.begin(),dp.end(),-1);
-        // vector<int>dp2(n+1,-1);
-        n = nums.size();
-        int secondHouse = solve(nums,n,dp);
-        return max(firstHouse, secondHouse);
+        if(nums.size() == 1) return nums[0];
+        if(nums.size() == 2) return nums[0]>nums[1]?nums[0]:nums[1];
+        vector<int>dp1(nums.size()+1, 0);
+        vector<int>dp2(nums.size()+1,0);
+        dp1[0] = 0;
+        dp1[1] = nums[0];
+        for(int i = 2 ; i < nums.size();i++){
+            dp1[i] = max(dp1[i-2] + nums[i-1], dp1[i-1]);
+        }
+        dp2[0] = 0;
+        dp2[1] = nums[1];
+        
+        for(int i = 2; i < nums.size();i++){
+            dp2[i] = max(dp2[i-2] + nums[i] , dp2[i-1]);
+        }
+        return max(dp1[nums.size()-1], dp2[nums.size()-1]);
     }
 };
