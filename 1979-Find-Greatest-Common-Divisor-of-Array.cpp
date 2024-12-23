@@ -1,22 +1,25 @@
 class Solution {
 public:
-    int gcd(int a , int b){
-        if(a == 0) return b;
-        if(b == 0) return a;
 
-        if(a > b){
-            return gcd(a%b,b);
+    int my_gcd(int max, int min){
+        if(max == 0) return min;
+        
+        if(min > max){
+            swap(min,max);
         }
-        else return gcd(b%a,a);
-    }
-    int findGCD(vector<int>& nums) {
-       int mini = INT_MAX;
-       int maxi  = INT_MIN;
 
-       for(auto a : nums){
-        mini = min(mini , a);
-        maxi = max(maxi, a);
-       }
-        return gcd(mini, maxi);
+        return my_gcd(max%min, min);
+    }
+
+    int findGCD(vector<int>& nums) {
+        int maxi = INT_MIN;
+        int mini = INT_MAX;
+
+        for(int i = 0;i < nums.size();i++){
+            maxi = max(maxi, nums[i]);
+            mini = min(mini , nums[i]);
+        }
+
+        return my_gcd(maxi, mini);
     }
 };
