@@ -10,53 +10,46 @@
  */
 class Solution {
 public:
-        ListNode* reverse(ListNode* &head){
-        ListNode* back = nullptr;
-        ListNode* curr = head;
+    ListNode* rev(ListNode* &head){
+        if(!head or !head->next) return head;
 
+        ListNode* prev = NULL;
+        ListNode* curr = head;
         ListNode* front = head->next;
 
-        while(front){
-            curr->next = back;
-            back = curr; 
-            curr= front;
-            front = front->next;
-        }
-        curr->next = back;
-        return curr;
-    }
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        if(head->next == nullptr) return head;
-        if(head->next->next == nullptr){
-            if(k == 1) return head;
-            ListNode* newHead = reverse(head);
-            return newHead;
-        }
-        ListNode* curr = head;
-        ListNode* back = nullptr;
         while(curr){
-            ListNode* tempHead = curr;
-            ListNode* prev = curr;
-            int count = 1;
-            while(curr && count <= k){
-                prev = curr;
-                count++;
-                curr = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = front;
+            if(front) front = front->next;
+        }
+        return prev;
+    }
+
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* next; 
+        ListNode* temp = head;
+        ListNode* tail = NULL;
+
+        while(temp){
+            int cnt = 1; 
+            ListNode* tempHead = temp;
+            while(cnt != k && temp){
+                temp = temp->next;
+                cnt++;
             }
-            if(curr == nullptr && count <= k){
-              
-                if(back) back->next = tempHead;
+            if(!temp){
+                tail->next = tempHead;
                 return head;
-            } 
-            prev->next = nullptr;
-           ListNode* revHead =  reverse(tempHead);
-            if(tempHead == head){
-                head = prev;
             }
-            if(back) back->next = revHead;
-            back = tempHead;
+            next  = temp->next;
+            temp->next = nullptr;
+            ListNode* revHead = rev(tempHead);
+            if(tempHead == head) head = revHead;
+            if(tail) tail->next = revHead;
+            tail = tempHead;
+            temp = next;
         }
         return head;
     }
-
 };
