@@ -1,27 +1,21 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& arr) {
-         int ele;
-        int cnt = 0;
-        for(int i= 0;i < arr.size();i++){
-            if(cnt == 0){
-                ele = arr[i];
-                cnt=1;
+    int majorityElement(vector<int>& nums) {
+        int count = 1 ;
+
+        int element = nums[0];
+
+        for(int i = 1;i < nums.size(); i++){
+            if(count == 0){
+                element = nums[i];
+                count = 1;
+                continue;
             }
-            else if(ele == arr[i]){
-                cnt++;
-            }
-            else{
-                cnt--;
-            }
+            if(element == nums[i]) count ++;
+
+            else count--;
+
         }
-        cnt =0;
-        for(int i =0 ;i < arr.size();i++){
-            if(arr[i] == ele){
-                cnt++;
-            }
-        }
-        int n = arr.size();
-        return cnt > n/2?ele:-1;
+        return element;
     }
 };
