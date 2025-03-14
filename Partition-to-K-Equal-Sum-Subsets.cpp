@@ -1,40 +1,31 @@
 class Solution {
 public:
-    bool solve(vector<int>& nums, int mask, int bucketSum, vector<int>& vis, int index,
-               int k, int req, vector<int>& dp) {
-        if (k == 0)
-            return true;
 
-        if (bucketSum == req) {
-            return solve(nums, mask, 0, vis, 0, k - 1, req, dp);
+    bool solve(vector<int>& nums, int k, int index ,int bucket , int target, int mask,
+    vector<int> &dp){
+        if(k == 0) return true;
+
+        if(target == bucket){
+            return solve(nums,k-1,0,0,target,mask,dp);
         }
-
-        if (index == nums.size())
-            return false;
-
-        pair<int, vector<int>> state = {index, vis};
+        if(index == nums.size()) return false;
 
         if(dp[mask] != -1) return dp[mask];
-
         bool pick = false;
-        if (!(mask & (1 << index)) && nums[index] + bucketSum <= req && !vis[index]) {
-            vis[index] = true;
-            pick = solve(nums, (mask | (1 << index)), bucketSum + nums[index], vis, index + 1, k, req, dp);
-            vis[index] = false;
+        if(!(mask & (1 << index)) && nums[index]+bucket <= target ){
+            pick = solve(nums, k , index+1,bucket+nums[index],target, (mask | (1 << index)),dp);
         }
-        bool notpick = solve(nums,mask, bucketSum, vis, index + 1, k, req, dp);
-        return dp[mask] = notpick || pick;
+        bool notpick = solve(nums, k , index+1, bucket , target, mask,dp);
+
+        return dp[mask] = pick or notpick;
     }
 
     bool canPartitionKSubsets(vector<int>& nums, int k) {
-        int n = nums.size();
-        int sum = accumulate(nums.begin(), nums.end(), 0);
-        if (sum % k != 0)
-            return false;
-        int target = sum / k;
-        sort(nums.rbegin(), nums.rend());
-        vector<int> vis(nums.size(), 0);
-        vector<int> dp(1 << n,-1);
-        return solve(nums,0, 0, vis, 0, k, target, dp);
+        int sum = 0;
+        for(int num : nums) sum+= num;
+        if(sum % k != 0 ) return false;
+        vector<int>dp(1 << nums.size(), -1);
+        return solve(nums, k , 0 , 0, sum/k,0,dp);
+
     }
 };
