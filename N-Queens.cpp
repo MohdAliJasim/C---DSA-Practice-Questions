@@ -1,6 +1,6 @@
 class Solution {
 public:
-
+    int count = 0;
     bool safe(vector<string>& temp, int row , int col){
         int nr = row;
         int nc = col;
@@ -20,6 +20,7 @@ public:
     }
 
     void solve(vector<vector<string>> & res, vector<string> & temp, int row,int n){
+        count++;
         if(row == n){
             res.push_back(temp);
             return ;
@@ -32,14 +33,12 @@ public:
                 temp[row][col] = '.';
             }
         }
-
-       
+        return;
     }
 
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> res;
         vector<string> temp(n);
-        string s = \....\;
         for(int i=0 ;i < n;i++){
             for(int j = 0;j < n;j++){
                 temp[i].push_back('.');
